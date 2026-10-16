@@ -1,0 +1,147 @@
+{
+  "name": "veriguard-m1",
+  "fields": [
+    {
+      "name": "key",
+      "type": "Edm.String",
+      "retrievable": true,
+      "key": true,
+      "filterable": true
+    },
+    {
+      "name": "chunk_id",
+      "type": "Edm.String",
+      "retrievable": true,
+      "filterable": true
+    },
+    {
+      "name": "doc_id",
+      "type": "Edm.String",
+      "retrievable": true,
+      "filterable": true,
+      "facetable": true
+    },
+    {
+      "name": "title",
+      "type": "Edm.String",
+      "retrievable": true,
+      "searchable": true
+    },
+    {
+      "name": "doc_type",
+      "type": "Edm.String",
+      "retrievable": true,
+      "filterable": true,
+      "facetable": true
+    },
+    {
+      "name": "version",
+      "type": "Edm.String",
+      "retrievable": true,
+      "filterable": true
+    },
+    {
+      "name": "status",
+      "type": "Edm.String",
+      "retrievable": true,
+      "filterable": true,
+      "facetable": true
+    },
+    {
+      "name": "classification",
+      "type": "Edm.String",
+      "retrievable": true,
+      "filterable": true,
+      "facetable": true
+    },
+    {
+      "name": "access_roles",
+      "type": "Collection(Edm.String)",
+      "filterable": true,
+      "retrievable": true
+    },
+    {
+      "name": "section",
+      "type": "Edm.String",
+      "retrievable": true,
+      "filterable": true
+    },
+    {
+      "name": "heading",
+      "type": "Edm.String",
+      "retrievable": true,
+      "searchable": true
+    },
+    {
+      "name": "page",
+      "type": "Edm.Int32",
+      "filterable": true,
+      "retrievable": true
+    },
+    {
+      "name": "effective_date",
+      "type": "Edm.String",
+      "retrievable": true,
+      "filterable": true
+    },
+    {
+      "name": "source",
+      "type": "Edm.String",
+      "retrievable": true,
+      "filterable": true
+    },
+    {
+      "name": "text",
+      "type": "Edm.String",
+      "retrievable": true,
+      "searchable": true
+    },
+    {
+      "name": "text_vector",
+      "type": "Collection(Edm.Single)",
+      "searchable": true,
+      "retrievable": false,
+      "dimensions": 1536,
+      "vectorSearchProfile": "vg-hnsw-profile"
+    }
+  ],
+  "vectorSearch": {
+    "algorithms": [
+      {
+        "name": "vg-hnsw",
+        "kind": "hnsw",
+        "hnswParameters": {
+          "metric": "cosine"
+        }
+      }
+    ],
+    "profiles": [
+      {
+        "name": "vg-hnsw-profile",
+        "algorithm": "vg-hnsw"
+      }
+    ]
+  },
+  "semantic": {
+    "configurations": [
+      {
+        "name": "veriguard-m1-semantic",
+        "prioritizedFields": {
+          "titleField": {
+            "fieldName": "heading"
+          },
+          "prioritizedContentFields": [
+            {
+              "fieldName": "text"
+            }
+          ],
+          "prioritizedKeywordsFields": [
+            {
+              "fieldName": "doc_id"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

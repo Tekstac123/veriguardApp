@@ -1,0 +1,7 @@
+apiVersion: 1
+providers:
+  - name: VeriGuard
+    folder: VeriGuard
+    type: file
+    options:
+      path: /var/lib/grafana/dashboards

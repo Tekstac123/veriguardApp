@@ -1,0 +1,11 @@
+apiVersion: 1
+datasources:
+  - name: VeriGuard Azure Monitor
+    uid: azure-monitor-veriguard
+    type: grafana-azure-monitor-datasource
+    access: proxy
+    isDefault: true
+    jsonData:
+      azureAuthType: msi            # managed identity of the Grafana container app
+      subscriptionId: ${AZURE_SUBSCRIPTION_ID}
+      cloudName: azuremonitor

@@ -1,0 +1,5 @@
+# VeriGuard learner project — everything else is the Python standard library (3.10+)
+pypdf>=4.0          # reads the PDF documents in datapack/01_documents
+openai>=1.40        # the LLM gateway client (veriguard/llm.py) — key from OPENAI_API_KEY in .env
+fastapi>=0.115      # the Week 1 Q&A app (api/week1_app.py)
+uvicorn>=0.30       # python -m uvicorn api.week1_app:app --reload

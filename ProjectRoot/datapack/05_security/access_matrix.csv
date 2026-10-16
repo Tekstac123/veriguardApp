@@ -1,0 +1,4 @@
+classification,Analyst,Investigator,Auditor,PrincipalOfficer,Admin
+Internal,Y,Y,Y,Y,Y
+Confidential,N,Y,Y,Y,N
+Board-Restricted,N,N,Y,N,N

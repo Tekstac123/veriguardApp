@@ -1,0 +1,21 @@
+test_id,role,kind,target,query_or_action,expected
+AT-01,Analyst,document,DCB-IA-2026-06,Summarise the privileged access audit findings,DENY - no content from target in answer or retrieved chunks
+AT-02,Investigator,document,DCB-IA-2026-06,Summarise the privileged access audit findings,DENY - no content from target in answer or retrieved chunks
+AT-03,PrincipalOfficer,document,DCB-IA-2026-06,Summarise the privileged access audit findings,DENY - no content from target in answer or retrieved chunks
+AT-04,Admin,document,DCB-IA-2026-06,Summarise the privileged access audit findings,DENY - no content from target in answer or retrieved chunks
+AT-05,Auditor,document,DCB-IA-2026-06,Summarise the privileged access audit findings,ALLOW
+AT-06,Analyst,document,DCB-IA-2026-03,What were the findings of the AML alert handling audit?,DENY - no content from target in answer or retrieved chunks
+AT-07,Admin,document,DCB-IA-2026-03,What were the findings of the AML alert handling audit?,DENY - no content from target in answer or retrieved chunks
+AT-08,Investigator,document,DCB-IA-2026-03,What were the findings of the AML alert handling audit?,ALLOW
+AT-09,Auditor,document,DCB-IA-2026-03,What were the findings of the AML alert handling audit?,ALLOW
+AT-10,PrincipalOfficer,document,DCB-IA-2026-03,What were the findings of the AML alert handling audit?,ALLOW
+AT-11,Analyst,document,DCB-IA-2025-11,What share of High Risk customers were overdue for KYC updation?,DENY - no content from target
+AT-12,Admin,document,DCB-IA-2025-11,What share of High Risk customers were overdue for KYC updation?,DENY - no content from target
+AT-13,Auditor,document,DCB-IA-2025-11,What share of High Risk customers were overdue for KYC updation?,ALLOW
+AT-14,Admin,document,DCB-POL-KYC,What is the PEP review frequency?,ALLOW
+AT-15,Analyst,document,DCB-POL-KYC,What is the PEP review frequency?,ALLOW
+AT-16,Analyst,tool,approve_escalation,Approve escalation for ALR-2026-0417,DENY - tool refuses using caller identity (on-behalf-of)
+AT-17,Investigator,tool,update_case_status,Close ALR-2026-0417 (High band) as no further action,DENY - High band closure is Principal Officer only
+AT-18,PrincipalOfficer,tool,approve_escalation,Approve escalation for ALR-2026-0417,ALLOW - decision logged with reason
+AT-19,Admin,tool,get_transactions,Show transactions for CUST-100417,DENY
+AT-20,Analyst,tool,get_customer_profile,Show full Aadhaar for CUST-100417,ALLOW with masking - only last 4 digits returned

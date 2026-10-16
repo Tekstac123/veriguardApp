@@ -1,0 +1,126 @@
+// VeriGuard Milestone 4 - Part 4B: CI/CD pipeline (Jenkins on Azure Container Apps)
+// Jenkins signs in to Azure with its managed identity: no password, no OTP.
+// Required Jenkins environment variables (Manage Jenkins -> System -> Global properties):
+//   AZ_RG, AZ_ACR, AZ_API_APP   (values of RG, ACR and API_APP of the lab)
+pipeline {
+  agent any
+  options { timestamps(); disableConcurrentBuilds(); timeout(time: 40, unit: 'MINUTES') }
+  environment {
+    PROJECT_DIR = 'ProjectRoot'                  // folder of the project inside the Git repository ('.' if it is the repository root)
+    IMAGE_REPO = 'veriguard-api'                 // repository name stays exactly as the lab requires
+    TAG        = "ci-${env.BUILD_NUMBER}"      // v1 from Step 3 is never overwritten
+    VERIGUARD_MODE = 'offline'                   // code checks run offline, no model call
+  }
+  stages {
+    stage('Checkout') {
+      steps { checkout scm }
+    }
+    stage('Azure sign-in') {
+      steps {
+        sh '''
+          az login --identity --output none
+          az account show --query "{sub:name,user:user.name}" -o table
+        '''
+      }
+    }
+    stage('Prepare environment') {
+      steps {
+        dir(env.PROJECT_DIR) {
+          // .env is never in Git: it comes from the Jenkins secret file 'veriguard-env' and is removed in post
+          withCredentials([file(credentialsId: 'veriguard-env', variable: 'ENVFILE')]) {
+            sh 'cp "$ENVFILE" .env'
+          }
+        
+        }
+      }
+    }
+    stage('Quality checks') {
+      steps {
+        dir(env.PROJECT_DIR) {
+          sh '''
+            python3 -m venv .venv && . .venv/bin/activate
+            pip install -q -r requirements.txt
+            python check_week1.py --no-llm
+            python check_week2.py
+            python check_week3.py
+            python check_week4.py
+          '''
+        
+        }
+      }
+    }
+    stage('Release gate') {
+      steps {
+        dir(env.PROJECT_DIR) {
+          // Milestone 3 quality_gate: PROMOTE only if every bar is met and nothing leaks
+          sh '''
+            . .venv/bin/activate
+            python run_week3.py | tee gate.txt
+            grep -q "PROMOTE" gate.txt || { echo "Release gate says BLOCK"; exit 1; }
+          '''
+        
+        }
+      }
+    }
+    stage('Build image') {
+      steps {
+        dir(env.PROJECT_DIR) {
+          sh 'az acr build -r "$AZ_ACR" -t "$IMAGE_REPO:$TAG" -f api/Dockerfile .'
+        
+        }
+      }
+    }
+    stage('Deploy') {
+      steps {
+        dir(env.PROJECT_DIR) {
+          sh '''
+            PREV=$(az containerapp show -n "$AZ_API_APP" -g "$AZ_RG" \
+                   --query "properties.template.containers[0].image" -o tsv)
+            echo "$PREV" > previous_image.txt
+            echo "Previous image: $PREV"
+            az containerapp update -n "$AZ_API_APP" -g "$AZ_RG" \
+              --image "$AZ_ACR.azurecr.io/$IMAGE_REPO:$TAG" \
+              --revision-suffix "b${BUILD_NUMBER}" \
+              --set-env-vars VERIGUARD_BUILD="$TAG" -o none
+          '''
+        
+        }
+      }
+    }
+    stage('Smoke test') {
+      steps {
+        dir(env.PROJECT_DIR) {
+          sh '''
+            API_URL=https://$(az containerapp show -n "$AZ_API_APP" -g "$AZ_RG" \
+                    --query properties.configuration.ingress.fqdn -o tsv)
+            for i in $(seq 1 20); do
+              code=$(curl -s -o /dev/null -m 10 -w "%{http_code}" "$API_URL/ready" || true)
+              [ "$code" = "200" ] && break
+              echo "waiting for /ready ($code)"; sleep 15
+            done
+            [ "$(curl -s -o /dev/null -w '%{http_code}' $API_URL/health)" = "200" ] || exit 1
+            [ "$(curl -s -o /dev/null -w '%{http_code}' $API_URL/ready)"  = "200" ] || exit 1
+            [ "$(curl -s -o /dev/null -w '%{http_code}' -X POST $API_URL/ask)" = "401" ] || exit 1
+            . .venv/bin/activate
+            python capstone_demo.py | tee capstone.txt
+            grep -q "11/11" capstone.txt
+          '''
+        
+        }
+      }
+    }
+  }
+  post {
+    always { dir(env.PROJECT_DIR) { sh 'rm -f .env' } }
+    failure {
+      // Rollback to the image that ran before this build (if the deploy stage got that far)
+      dir(env.PROJECT_DIR) { sh '''
+        if [ -s previous_image.txt ]; then
+          echo "Rolling back to $(cat previous_image.txt)"
+          az containerapp update -n "$AZ_API_APP" -g "$AZ_RG" --image "$(cat previous_image.txt)" -o none
+        fi
+      ''' }
+    }
+    success { echo "Deployed ${env.IMAGE_REPO}:${env.TAG}" }
+  }
+}

@@ -1,0 +1,10 @@
+# secrets and local state — never commit
+.env
+.azure_cache/
+reports/
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/

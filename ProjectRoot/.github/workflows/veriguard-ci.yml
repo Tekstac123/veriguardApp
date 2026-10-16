@@ -1,0 +1,52 @@
+# Week 3 — CI evaluation gate: a pull request that regresses a metric is blocked (M3-5).
+# Offline job: always runs, no secrets. Live job: runs the golden set and the red-team against your Azure resources,
+# signing in with OIDC (federated credential on the app registration veriguard-ci, role Foundry User +
+# Search Index Data Reader + Cognitive Services User) — see the Week 3 setup guide, Step 9.
+name: veriguard-ci
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  offline-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -r requirements.txt
+      - name: Evaluate and gate (offline)
+        run: |
+          python run_week1.py
+          python run_week3.py | tee gate.txt
+          grep -q "CI gate (this build): {'decision': 'PROMOTE'" gate.txt
+  live-gate:
+    if: ${{ vars.VERIGUARD_LIVE_CI == 'true' }}
+    needs: offline-gate
+    runs-on: ubuntu-latest
+    env:
+      VERIGUARD_MODE: live
+      VERIGUARD_CREDENTIAL: default
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+      AZURE_OPENAI_ENDPOINT: ${{ vars.AZURE_OPENAI_ENDPOINT }}
+      AZURE_AI_SERVICES_ENDPOINT: ${{ vars.AZURE_AI_SERVICES_ENDPOINT }}
+      AZURE_SEARCH_ENDPOINT: ${{ vars.AZURE_SEARCH_ENDPOINT }}
+      AZURE_STORAGE_ACCOUNT: ${{ vars.AZURE_STORAGE_ACCOUNT }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - run: pip install -r requirements.txt -r requirements-azure.txt
+      - run: python tools/sync_from_azure.py --week 2
+      - name: Evaluate and gate (live)
+        run: |
+          python run_week3.py | tee gate.txt
+          grep -q "CI gate (this build): {'decision': 'PROMOTE'" gate.txt

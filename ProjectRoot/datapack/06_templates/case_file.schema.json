@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VeriGuard Case File",
+  "type": "object",
+  "required": [
+    "alert_id",
+    "customer_summary",
+    "transactions_reviewed",
+    "typology_assessment",
+    "risk_score",
+    "policy_references",
+    "mitigating_factors",
+    "recommendation",
+    "rationale"
+  ],
+  "properties": {
+    "alert_id": {
+      "type": "string"
+    },
+    "customer_summary": {
+      "type": "object",
+      "description": "Masked identifiers only"
+    },
+    "transactions_reviewed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "txn_ids"
+    },
+    "typology_assessment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "typology": {
+            "type": "string"
+          },
+          "evidence_txn_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "confidence": {
+            "enum": [
+              "Low",
+              "Medium",
+              "High"
+            ]
+          }
+        }
+      }
+    },
+    "risk_score": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "band": {
+          "enum": [
+            "Low",
+            "Medium",
+            "High"
+          ]
+        },
+        "factors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "factor": {
+                "type": "string"
+              },
+              "points": {
+                "type": "integer"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "policy_references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "doc_id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "mitigating_factors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommendation": {
+      "enum": [
+        "Close - No Further Action",
+        "Close - False Match Cleared",
+        "Continue Monitoring",
+        "Escalate to Principal Officer"
+      ]
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "hitl": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "decision": {
+          "enum": [
+            "PENDING",
+            "APPROVED",
+            "REJECTED"
+          ]
+        },
+        "approver": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

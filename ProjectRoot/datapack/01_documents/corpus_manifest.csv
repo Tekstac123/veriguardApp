@@ -1,0 +1,23 @@
+doc_id,title,version,status,effective_date,superseded_by,classification,access_roles,owner,file
+DCB-POL-KYC,Know Your Customer (KYC) Policy,4.0,Current,2026-04-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Compliance Department,DCB-POL-KYC_v4_0.pdf
+DCB-POL-KYC,Know Your Customer (KYC) Policy,3.2,Superseded,2024-04-01,4.0,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Compliance Department,DCB-POL-KYC_v3_2.pdf
+DCB-POL-AML,Anti-Money Laundering and Countering the Financing of Terrorism (AML/CFT) Policy,2.1,Current,2025-10-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Compliance Department,DCB-POL-AML_v2_1.pdf
+DCB-STD-CDD,Customer Due Diligence and Enhanced Due Diligence Standard,1.3,Current,2025-07-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Compliance Department,DCB-STD-CDD_v1_3.md
+DCB-SOP-TMI,Transaction Monitoring and Investigation Standard Operating Procedure,3.0,Current,2026-01-15,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,AML Investigations,DCB-SOP-TMI_v3_0.md
+DCB-HB-TYP,AML Typology Handbook,2.0,Current,2025-11-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,AML Investigations,DCB-HB-TYP_v2_0.md
+DCB-MTH-CRR,Customer and Case Risk Rating Methodology,1.2,Current,2026-02-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Compliance Analytics,DCB-MTH-CRR_v1_2.pdf
+DCB-POL-ESC,Escalation and Approval Matrix,1.1,Current,2026-01-15,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Compliance Department,DCB-POL-ESC_v1_1.md
+DCB-PRC-SCR,Sanctions and Watchlist Screening Procedure,2.2,Current,2025-09-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Compliance Department,DCB-PRC-SCR_v2_2.pdf
+DCB-REG-HRJ,High-Risk Jurisdiction Register,2026-Q3,Current,2026-07-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Compliance Department,DCB-REG-HRJ_v2026-Q3.pdf
+DCB-STD-DCP,Data Classification and Personal Data Handling Standard,1.0,Current,2025-12-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Information Security,DCB-STD-DCP_v1_0.md
+DCB-POL-RET,Record Retention Policy,2.0,Current,2026-01-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Operations,DCB-POL-RET_v2_0.pdf
+DCB-POL-RET,Record Retention Policy,1.0,Superseded,2022-01-01,2.0,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Operations,DCB-POL-RET_v1_0.pdf
+DCB-POL-AIU,Responsible AI Usage Policy,1.0,Current,2026-07-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Chief Risk Officer,DCB-POL-AIU_v1_0.md
+DCB-CC-2026-07,Compliance Circular: Interim Controls on UPI Mule Accounts,1.0,Current,2026-08-10,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Compliance Department,DCB-CC-2026-07_v1_0.md
+DCB-RD-KYC,Regulatory Digest: RBI KYC Directions (Training Summary),2026.1,Current,2026-01-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Compliance Department,DCB-RD-KYC_v2026_1.md
+DCB-RD-PMLA,Regulatory Digest: PMLA Reporting Obligations (Training Summary),2026.1,Current,2026-01-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Compliance Department,DCB-RD-PMLA_v2026_1.md
+DCB-RD-DPDP,"Regulatory Digest: Digital Personal Data Protection Act, 2023 (Training Summary)",2026.1,Current,2026-01-01,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Data Protection Office,DCB-RD-DPDP_v2026_1.md
+DCB-IA-2026-03,Internal Audit Report: AML Alert Handling Review,Final,Current,2026-05-20,,Confidential,Investigator;Auditor;PrincipalOfficer,Internal Audit,DCB-IA-2026-03_vFinal.pdf
+DCB-IA-2025-11,Internal Audit Report: Periodic KYC Updation Review,Final,Current,2025-12-15,,Confidential,Investigator;Auditor;PrincipalOfficer,Internal Audit,DCB-IA-2025-11_vFinal.pdf
+DCB-IA-2026-06,Internal Audit Report: Privileged Access and Related-Party Exposure Review,Final,Current,2026-07-30,,Board-Restricted,Auditor,Internal Audit,DCB-IA-2026-06_vFinal.pdf
+DCB-VND-2026-014,Vendor Onboarding Note: Northwind Data Services,1.0,Current,2026-08-25,,Internal,Analyst;Investigator;Auditor;PrincipalOfficer;Admin,Procurement,DCB-VND-2026-014_v1_0.pdf

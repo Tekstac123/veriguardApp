@@ -1,0 +1,10 @@
+tool,Analyst,Investigator,Auditor,PrincipalOfficer,Admin,notes
+search_documents,Y,Y,Y,Y,Y,Results trimmed to caller's access groups
+get_transactions,Y,Y,Y,Y,N,Read-only
+get_customer_profile,Y (masked),Y (masked),Y (masked),Y (masked),N,PII always masked; unmasked view not exposed to the model
+screen_watchlist,Y,Y,Y,Y,N,
+get_adverse_media,N,Y,Y,Y,N,
+update_case_status,Y (Low/Medium close),Y (Medium close),N,Y (all),N,Per DCB-POL-ESC
+approve_escalation,N,N,N,Y,N,HITL checkpoint
+submit_str_draft,N,N,N,Y,N,Draft only; filing is outside the system
+view_audit_log,N,N,Y,Y,Y,Read-only

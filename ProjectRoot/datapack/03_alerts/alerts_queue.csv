@@ -1,0 +1,34 @@
+alert_id,customer_id,account_id,rule_id,rule_description,triggered_at,priority,status
+ALR-2026-0417,CUST-100417,ACC-100417,R01,"Aggregate cash deposits >= Rs 9,00,000 in 10 days across 3+ branches",2026-08-29T06:32:07,High,New
+ALR-2026-0452,CUST-100522,ACC-100522,R02,30-day turnover > 3x 90-day baseline,2026-09-04T06:48:24,Medium,New
+ALR-2026-0466,CUST-100731,ACC-100731,R03,Watchlist potential match (similarity >= 0.85),2026-09-05T06:58:35,High,New
+ALR-2026-0601,CUST-100263,ACC-100263,R01,"Aggregate cash deposits >= Rs 9,00,000 in 10 days across 3+ branches",2026-08-24T06:02:36,High,New
+ALR-2026-0602,CUST-100264,ACC-100264,R01,"Aggregate cash deposits >= Rs 9,00,000 in 10 days across 3+ branches",2026-08-27T06:52:51,High,New
+ALR-2026-0603,CUST-100265,ACC-100265,R01,"Aggregate cash deposits >= Rs 9,00,000 in 10 days across 3+ branches",2026-08-30T06:16:25,High,New
+ALR-2026-0604,CUST-100266,ACC-100266,R05,"Mule pattern: 25+ distinct inbound UPI/IMPS senders in 7 days, >=80% out within 24h (CC-2026-07)",2026-08-24T06:49:00,High,New
+ALR-2026-0605,CUST-100267,ACC-100267,R05,"Mule pattern: 25+ distinct inbound UPI/IMPS senders in 7 days, >=80% out within 24h (CC-2026-07)",2026-08-28T06:54:56,High,New
+ALR-2026-0606,CUST-100268,ACC-100268,R05,"Mule pattern: 25+ distinct inbound UPI/IMPS senders in 7 days, >=80% out within 24h (CC-2026-07)",2026-09-01T06:53:44,High,New
+ALR-2026-0607,CUST-100269,ACC-100269,R04,Inbound SWIFT from high-risk jurisdiction,2026-08-22T06:12:17,High,New
+ALR-2026-0608,CUST-100270,ACC-100270,R04,Inbound SWIFT from high-risk jurisdiction,2026-08-27T06:01:26,High,New
+ALR-2026-0609,CUST-100271,ACC-100271,R08,Round-trip pattern: outflow and similar inflow from related party within 30 days,2026-09-02T06:04:11,Medium,New
+ALR-2026-0610,CUST-100272,ACC-100272,R08,Round-trip pattern: outflow and similar inflow from related party within 30 days,2026-09-02T06:20:35,Medium,New
+ALR-2026-0611,CUST-100273,ACC-100273,R06,Dormant account (12m+) reactivated with large flows,2026-08-13T06:20:02,Medium,New
+ALR-2026-0612,CUST-100274,ACC-100274,R07,Large credits to PEP / PEP associate,2026-09-05T06:28:40,Medium,New
+ALR-2026-0613,CUST-100275,ACC-100275,R02,30-day turnover > 3x 90-day baseline,2026-08-12T06:10:22,Medium,New
+ALR-2026-0614,CUST-100276,ACC-100276,R02,30-day turnover > 3x 90-day baseline,2026-08-19T06:02:11,Medium,New
+ALR-2026-0615,CUST-100277,ACC-100277,R02,30-day turnover > 3x 90-day baseline,2026-08-26T06:34:51,Medium,New
+ALR-2026-0616,CUST-100278,ACC-100278,R09,"Single cash deposit >= Rs 3,00,000",2026-09-04T06:53:46,Medium,New
+ALR-2026-0617,CUST-100279,ACC-100279,R09,"Single cash deposit >= Rs 3,00,000",2026-09-04T06:24:06,Medium,New
+ALR-2026-0618,CUST-100280,ACC-100280,R09,"Single cash deposit >= Rs 3,00,000",2026-09-04T06:49:33,Medium,New
+ALR-2026-0619,CUST-100281,ACC-100281,R04,SWIFT from jurisdiction under monitoring,2026-08-21T06:47:56,High,New
+ALR-2026-0620,CUST-100282,ACC-100282,R04,SWIFT from jurisdiction under monitoring,2026-08-21T06:31:41,High,New
+ALR-2026-0621,CUST-100283,ACC-100283,R02,30-day turnover > 3x 90-day baseline,2026-09-02T06:19:17,Medium,New
+ALR-2026-0622,CUST-100284,ACC-100284,R02,30-day turnover > 3x 90-day baseline,2026-09-02T06:21:53,Medium,New
+ALR-2026-0623,CUST-100285,ACC-100285,R02,30-day turnover > 3x 90-day baseline,2026-08-17T06:24:40,Medium,New
+ALR-2026-0624,CUST-100286,ACC-100286,R02,30-day turnover > 3x 90-day baseline,2026-08-27T06:54:49,Medium,New
+ALR-2026-0625,CUST-100287,ACC-100287,R02,Large credit followed by immediate outflow,2026-08-20T06:29:59,Medium,New
+ALR-2026-0626,CUST-100288,ACC-100288,R02,Large credit followed by immediate outflow,2026-08-20T06:30:19,Medium,New
+ALR-2026-0627,CUST-100289,ACC-100289,R03,Watchlist potential match (similarity >= 0.85),2026-08-30T06:38:24,High,New
+ALR-2026-0628,CUST-100290,ACC-100290,R03,Watchlist potential match (similarity >= 0.85),2026-08-30T06:03:53,High,New
+ALR-2026-0629,CUST-100291,ACC-100291,R09,"Single cash deposit >= Rs 3,00,000",2026-09-07T06:32:18,Medium,New
+ALR-2026-0630,CUST-100292,ACC-100292,R09,"Single cash deposit >= Rs 3,00,000",2026-09-07T06:29:23,Medium,New

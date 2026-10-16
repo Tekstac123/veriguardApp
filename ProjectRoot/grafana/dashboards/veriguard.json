@@ -1,0 +1,243 @@
+{
+  "uid": "veriguard-ops",
+  "title": "VeriGuard Operations",
+  "tags": [
+    "veriguard",
+    "aml-compliance"
+  ],
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "1m",
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "sub",
+        "label": "Subscription ID",
+        "type": "textbox",
+        "query": "<subscription id>",
+        "current": {
+          "text": "<subscription id>",
+          "value": "<subscription id>"
+        }
+      },
+      {
+        "name": "rg",
+        "label": "Resource group",
+        "type": "textbox",
+        "query": "<resource group>",
+        "current": {
+          "text": "<resource group>",
+          "value": "<resource group>"
+        }
+      },
+      {
+        "name": "appi",
+        "label": "Application Insights",
+        "type": "textbox",
+        "query": "appi-veriguard-xxxx",
+        "current": {
+          "text": "appi-veriguard-xxxx",
+          "value": "appi-veriguard-xxxx"
+        }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Cost per investigation (USD) - cap 0.01",
+      "type": "timeseries",
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "azure-monitor-veriguard"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "dependencies | where name startswith \"veriguard.\" | extend cost=todouble(customDimensions[\"veriguard.cost_usd\"]) | summarize cost=sum(cost) by bin(timestamp,$__interval), operation_Id | summarize max(cost) by bin(timestamp,$__interval)",
+            "resultFormat": "time_series",
+            "resources": [
+              "/subscriptions/$sub/resourceGroups/$rg/providers/microsoft.insights/components/$appi"
+            ]
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure-monitor-veriguard"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Latency per agent step (ms)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "azure-monitor-veriguard"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "dependencies | where name startswith \"veriguard.agent.\" | extend ms=todouble(customDimensions[\"veriguard.latency_ms\"]) | summarize avg(ms) by bin(timestamp,$__interval), name",
+            "resultFormat": "time_series",
+            "resources": [
+              "/subscriptions/$sub/resourceGroups/$rg/providers/microsoft.insights/components/$appi"
+            ]
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure-monitor-veriguard"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Traces per hour",
+      "type": "timeseries",
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "azure-monitor-veriguard"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 8,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "dependencies | where name startswith \"veriguard.\" | summarize traces=dcount(operation_Id) by bin(timestamp,1h)",
+            "resultFormat": "time_series",
+            "resources": [
+              "/subscriptions/$sub/resourceGroups/$rg/providers/microsoft.insights/components/$appi"
+            ]
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure-monitor-veriguard"
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "budget_exceeded investigations",
+      "type": "stat",
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "azure-monitor-veriguard"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 8,
+        "w": 4,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "dependencies | where name startswith \"veriguard.\" | where tostring(customDimensions[\"veriguard.status\"])==\"budget_exceeded\" | summarize budget_exceeded=dcount(operation_Id)",
+            "resultFormat": "table",
+            "resources": [
+              "/subscriptions/$sub/resourceGroups/$rg/providers/microsoft.insights/components/$appi"
+            ]
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure-monitor-veriguard"
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "API errors (4xx / 5xx)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "azure-monitor-veriguard"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "requests | where resultCode startswith \"4\" or resultCode startswith \"5\" | summarize errors=count() by bin(timestamp,$__interval), resultCode",
+            "resultFormat": "time_series",
+            "resources": [
+              "/subscriptions/$sub/resourceGroups/$rg/providers/microsoft.insights/components/$appi"
+            ]
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure-monitor-veriguard"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Deployments: build tag in use",
+      "type": "table",
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "azure-monitor-veriguard"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 24,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "requests | extend build=tostring(customDimensions[\"VERIGUARD_BUILD\"]), rev=cloud_RoleInstance | summarize last_seen=max(timestamp), calls=count() by rev | order by last_seen desc",
+            "resultFormat": "table",
+            "resources": [
+              "/subscriptions/$sub/resourceGroups/$rg/providers/microsoft.insights/components/$appi"
+            ]
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "azure-monitor-veriguard"
+          }
+        }
+      ]
+    }
+  ]
+}

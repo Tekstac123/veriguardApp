@@ -1,0 +1,13 @@
+{
+  "kyc_Low": 0,
+  "kyc_Medium": 10,
+  "kyc_High": 25,
+  "pep": 15,
+  "watchlist_confirmed": 40,
+  "watchlist_unresolved": 20,
+  "hrj_exposure": 15,
+  "velocity_anomaly": 15,
+  "typology": 20,
+  "adverse_media": 10,
+  "legit_explanation_verified": -20
+}

@@ -1,0 +1,3 @@
+alert_id,customer_id,account_id,rule_id,rule_description,triggered_at,priority,status
+ALR-2026-9001,CUST-100298,ACC-100298,R04,Inbound SWIFT from high-risk jurisdiction,2026-08-30T17:42:48,High,New
+ALR-2026-9002,CUST-100293,ACC-100293,R03,Watchlist potential match (similarity >= 0.85),2026-09-10T18:28:00,High,New

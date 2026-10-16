@@ -1,0 +1,9 @@
+# Live mode (VERIGUARD_MODE=live) — Azure and Microsoft Foundry. Pinned to the versions this guide was written for.
+azure-identity==1.25.3
+azure-ai-projects==2.7.0           # new Foundry agents (create_version / PromptAgentDefinition / MCPTool), datasets
+openai>=1.99                        # project.get_openai_client() → Responses API with an agent reference
+azure-monitor-opentelemetry==1.8.10
+requests>=2.32
+mcp==2.2.0                          # MCP server (MCPServer; mcp<2 used FastMCP)
+uvicorn>=0.30
+fastapi>=0.115
