@@ -9,7 +9,8 @@ pipeline {
     PROJECT_DIR = 'ProjectRoot'                  // folder of the project inside the Git repository ('.' if it is the repository root)
     IMAGE_REPO = 'veriguard-api'                 // repository name stays exactly as the lab requires
     TAG        = "ci-${env.BUILD_NUMBER}"      // v1 from Step 3 is never overwritten
-    VERIGUARD_MODE = 'offline'                   // code checks run offline, no model call
+    VERIGUARD_MODE = 'offline'                   // code checks run offline
+    VERIGUARD_LLM  = 'extractive'                // no model call: the metrics are graded on extractive answers (reproducible)
   }
   stages {
     stage('Checkout') {
@@ -30,7 +31,6 @@ pipeline {
           withCredentials([file(credentialsId: 'veriguard-env', variable: 'ENVFILE')]) {
             sh 'cp "$ENVFILE" .env'
           }
-        
         }
       }
     }
@@ -45,7 +45,6 @@ pipeline {
             python check_week3.py
             python check_week4.py
           '''
-        
         }
       }
     }
@@ -56,9 +55,8 @@ pipeline {
           sh '''
             . .venv/bin/activate
             python run_week3.py | tee gate.txt
-            grep -q "PROMOTE" gate.txt || { echo "Release gate says BLOCK"; exit 1; }
+            grep -q "CI gate (this build): {'decision': 'PROMOTE'" gate.txt || { echo "Release gate says BLOCK"; exit 1; }
           '''
-        
         }
       }
     }
@@ -66,7 +64,6 @@ pipeline {
       steps {
         dir(env.PROJECT_DIR) {
           sh 'az acr build -r "$AZ_ACR" -t "$IMAGE_REPO:$TAG" -f api/Dockerfile .'
-        
         }
       }
     }
@@ -83,7 +80,6 @@ pipeline {
               --revision-suffix "b${BUILD_NUMBER}" \
               --set-env-vars VERIGUARD_BUILD="$TAG" -o none
           '''
-        
         }
       }
     }
@@ -105,7 +101,6 @@ pipeline {
             python capstone_demo.py | tee capstone.txt
             grep -q "11/11" capstone.txt
           '''
-        
         }
       }
     }
